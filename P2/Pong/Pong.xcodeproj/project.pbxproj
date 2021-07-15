@@ -1,0 +1,362 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D943AA072670315800FD29B7 /* ball.png in Copy Files */ = {isa = PBXBuildFile; fileRef = D943AA062670314F00FD29B7 /* ball.png */; };
+		D943AA082670315900FD29B7 /* board.png in Copy Files */ = {isa = PBXBuildFile; fileRef = D943AA052670314F00FD29B7 /* board.png */; };
+		D943AA0A267033D300FD29B7 /* speedup.png in Copy Files */ = {isa = PBXBuildFile; fileRef = D943AA09267033C800FD29B7 /* speedup.png */; };
+		D94D8844266D7F1F00EDDA76 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D94D8843266D7F1F00EDDA76 /* main.cpp */; };
+		D94D884C266D7FAC00EDDA76 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D94D884B266D7FAC00EDDA76 /* OpenGL.framework */; };
+		D94D884E266D7FB300EDDA76 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D94D884D266D7FB300EDDA76 /* Cocoa.framework */; };
+		D94D8852266D7FEC00EDDA76 /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D94D884F266D7FEC00EDDA76 /* SDL2_mixer.framework */; };
+		D94D8853266D7FEC00EDDA76 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D94D8850266D7FEC00EDDA76 /* SDL2_image.framework */; };
+		D94D8854266D7FEC00EDDA76 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D94D8851266D7FEC00EDDA76 /* SDL2.framework */; };
+		D94D885A266D803200EDDA76 /* ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D94D8856266D803200EDDA76 /* ShaderProgram.cpp */; };
+		D94D885B266D803B00EDDA76 /* shaders in Copy Files */ = {isa = PBXBuildFile; fileRef = D94D8855266D803200EDDA76 /* shaders */; };
+		D94DFFEE2683C92A0095BB90 /* font.png in Copy Files */ = {isa = PBXBuildFile; fileRef = D94DFFED2683C9240095BB90 /* font.png */; };
+		D9BE7E752676760100A3BF08 /* player2wins.png in Copy Files */ = {isa = PBXBuildFile; fileRef = D9BE7E72267675F100A3BF08 /* player2wins.png */; };
+		D9BE7E7726767D6D00A3BF08 /* player1wins.png in Copy Files */ = {isa = PBXBuildFile; fileRef = D9BE7E7626767AA400A3BF08 /* player1wins.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D94D883E266D7F1F00EDDA76 /* Copy Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				D94D885B266D803B00EDDA76 /* shaders in Copy Files */,
+				D943AA072670315800FD29B7 /* ball.png in Copy Files */,
+				D9BE7E7726767D6D00A3BF08 /* player1wins.png in Copy Files */,
+				D94DFFEE2683C92A0095BB90 /* font.png in Copy Files */,
+				D9BE7E752676760100A3BF08 /* player2wins.png in Copy Files */,
+				D943AA082670315900FD29B7 /* board.png in Copy Files */,
+				D943AA0A267033D300FD29B7 /* speedup.png in Copy Files */,
+			);
+			name = "Copy Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D943AA052670314F00FD29B7 /* board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = board.png; sourceTree = "<group>"; };
+		D943AA062670314F00FD29B7 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
+		D943AA09267033C800FD29B7 /* speedup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = speedup.png; sourceTree = "<group>"; };
+		D94D8840266D7F1F00EDDA76 /* Pong */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Pong; sourceTree = BUILT_PRODUCTS_DIR; };
+		D94D8843266D7F1F00EDDA76 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		D94D884B266D7FAC00EDDA76 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		D94D884D266D7FB300EDDA76 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		D94D884F266D7FEC00EDDA76 /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_mixer.framework; path = ../../../../../../../Library/Frameworks/SDL2_mixer.framework; sourceTree = "<group>"; };
+		D94D8850266D7FEC00EDDA76 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../../../../Library/Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
+		D94D8851266D7FEC00EDDA76 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
+		D94D8855266D803200EDDA76 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
+		D94D8856266D803200EDDA76 /* ShaderProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderProgram.cpp; sourceTree = "<group>"; };
+		D94D8857266D803200EDDA76 /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
+		D94D8858266D803200EDDA76 /* ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProgram.h; sourceTree = "<group>"; };
+		D94D8859266D803200EDDA76 /* glm */ = {isa = PBXFileReference; lastKnownFileType = folder; path = glm; sourceTree = "<group>"; };
+		D94DFFED2683C9240095BB90 /* font.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = font.png; sourceTree = "<group>"; };
+		D9BE7E72267675F100A3BF08 /* player2wins.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player2wins.png; sourceTree = "<group>"; };
+		D9BE7E7626767AA400A3BF08 /* player1wins.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player1wins.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D94D883D266D7F1F00EDDA76 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D94D8852266D7FEC00EDDA76 /* SDL2_mixer.framework in Frameworks */,
+				D94D8853266D7FEC00EDDA76 /* SDL2_image.framework in Frameworks */,
+				D94D8854266D7FEC00EDDA76 /* SDL2.framework in Frameworks */,
+				D94D884E266D7FB300EDDA76 /* Cocoa.framework in Frameworks */,
+				D94D884C266D7FAC00EDDA76 /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D94D8837266D7F1F00EDDA76 = {
+			isa = PBXGroup;
+			children = (
+				D94D8842266D7F1F00EDDA76 /* Pong */,
+				D94D8841266D7F1F00EDDA76 /* Products */,
+				D94D884A266D7FAC00EDDA76 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		D94D8841266D7F1F00EDDA76 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D94D8840266D7F1F00EDDA76 /* Pong */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D94D8842266D7F1F00EDDA76 /* Pong */ = {
+			isa = PBXGroup;
+			children = (
+				D94D8859266D803200EDDA76 /* glm */,
+				D94D8856266D803200EDDA76 /* ShaderProgram.cpp */,
+				D94D8858266D803200EDDA76 /* ShaderProgram.h */,
+				D94D8855266D803200EDDA76 /* shaders */,
+				D94D8857266D803200EDDA76 /* stb_image.h */,
+				D943AA062670314F00FD29B7 /* ball.png */,
+				D943AA052670314F00FD29B7 /* board.png */,
+				D9BE7E7626767AA400A3BF08 /* player1wins.png */,
+				D9BE7E72267675F100A3BF08 /* player2wins.png */,
+				D94DFFED2683C9240095BB90 /* font.png */,
+				D943AA09267033C800FD29B7 /* speedup.png */,
+				D94D8843266D7F1F00EDDA76 /* main.cpp */,
+			);
+			path = Pong;
+			sourceTree = "<group>";
+		};
+		D94D884A266D7FAC00EDDA76 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D94D8850266D7FEC00EDDA76 /* SDL2_image.framework */,
+				D94D884F266D7FEC00EDDA76 /* SDL2_mixer.framework */,
+				D94D8851266D7FEC00EDDA76 /* SDL2.framework */,
+				D94D884D266D7FB300EDDA76 /* Cocoa.framework */,
+				D94D884B266D7FAC00EDDA76 /* OpenGL.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D94D883F266D7F1F00EDDA76 /* Pong */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D94D8847266D7F1F00EDDA76 /* Build configuration list for PBXNativeTarget "Pong" */;
+			buildPhases = (
+				D94D883C266D7F1F00EDDA76 /* Sources */,
+				D94D883D266D7F1F00EDDA76 /* Frameworks */,
+				D94D883E266D7F1F00EDDA76 /* Copy Files */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Pong;
+			productName = Pong;
+			productReference = D94D8840266D7F1F00EDDA76 /* Pong */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D94D8838266D7F1F00EDDA76 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1250;
+				TargetAttributes = {
+					D94D883F266D7F1F00EDDA76 = {
+						CreatedOnToolsVersion = 12.5;
+					};
+				};
+			};
+			buildConfigurationList = D94D883B266D7F1F00EDDA76 /* Build configuration list for PBXProject "Pong" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D94D8837266D7F1F00EDDA76;
+			productRefGroup = D94D8841266D7F1F00EDDA76 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D94D883F266D7F1F00EDDA76 /* Pong */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D94D883C266D7F1F00EDDA76 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D94D8844266D7F1F00EDDA76 /* main.cpp in Sources */,
+				D94D885A266D803200EDDA76 /* ShaderProgram.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D94D8845266D7F1F00EDDA76 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D94D8846266D7F1F00EDDA76 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D94D8848266D7F1F00EDDA76 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					/Library/Frameworks/SDL2.framework/Versions/A/Headers,
+					/Library/Frameworks/SDL2_image.framework/Versions/A/Headers,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D94D8849266D7F1F00EDDA76 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					/Library/Frameworks/SDL2.framework/Versions/A/Headers,
+					/Library/Frameworks/SDL2_image.framework/Versions/A/Headers,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D94D883B266D7F1F00EDDA76 /* Build configuration list for PBXProject "Pong" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D94D8845266D7F1F00EDDA76 /* Debug */,
+				D94D8846266D7F1F00EDDA76 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D94D8847266D7F1F00EDDA76 /* Build configuration list for PBXNativeTarget "Pong" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D94D8848266D7F1F00EDDA76 /* Debug */,
+				D94D8849266D7F1F00EDDA76 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D94D8838266D7F1F00EDDA76 /* Project object */;
+}
