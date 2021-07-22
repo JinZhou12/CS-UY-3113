@@ -5,7 +5,6 @@
 #include "stb_image.h"
 #define FIXEDTIMESTEP 0.016666666
 #define FIXEDANIMATIONSTEP 0.15
-#define PLATFORMCOUNT 7
 #define ENEMYCOUNT 3
 
 using namespace glm;
@@ -14,7 +13,6 @@ using namespace std;
 struct GameState{
     Mix_Music* music;
     Map* map;
-    Entity* Background;
     Entity* Player;
     Entity* Enemy;
 };
@@ -44,7 +42,7 @@ int main(int argc, const char * argv[]) {
     bool gameLost = false;
     
     SDL_Init(SDL_INIT_VIDEO| SDL_INIT_AUDIO);
-    displayWindow = SDL_CreateWindow("Monster Slayer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
+    displayWindow = SDL_CreateWindow("Monster Slayer2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
     SDL_GLContext context = SDL_GL_CreateContext(displayWindow);
     SDL_GL_MakeCurrent(displayWindow, context);
     
@@ -73,6 +71,8 @@ void Initialize(ShaderProgram* program, GameState& state, GLuint& fontTex) {
     
     glViewport(0, 0, 640, 480);
     
+    glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+    
     program->Load("shaders/vertex_textured.glsl", "shaders/fragment_textured.glsl");
     
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024);
@@ -95,27 +95,19 @@ void Initialize(ShaderProgram* program, GameState& state, GLuint& fontTex) {
     
     //Player
     state.Player = new Entity(PLAYER,LoadTexture("adventurer.png"), 10, 11, 0.74f, 1);
-    state.Player->acceleration.y = -8.0f;
-    state.Player->position = vec3(-4.0f, -2.5f, 0);
+    state.Player->position = vec3(0);
     state.Player->speed = 2.0f;
     state.Player->idleTex = {65,66,71,72};
     state.Player->moveTex = {84,85,86,87,88,89};
     state.Player->jumpTex = {77,78,79};
     state.Player->hitTex = {62,63,64};
     state.Player->deathTex = {53,54,55,56,57,58,59};
-    state.Player->castTex = {30,31,32,33};
-    state.Player->attackTex = {13,14,15,16,17};
-    state.Player->airAttackTex = {10,11,12};
     state.Player->wallSlideTex = {107,108};
     state.Player->fallTex = {60,61};
-    state.Player->validattack = 2;
-    state.Player->validcast = 3;
     state.Player->height = 1.2;
     state.Player->width = 1.2;
     state.Player->contactHeight = 0.8f;
     state.Player->contactWidth = 0.3f;
-    state.Player->attackdisx = 2.5f;
-    state.Player->attackdisy = 1.3f;
 //    state.Player->jumping = Mix_LoadWAV("heroJump.wav");
 //    state.Player->running = Mix_LoadWAV("heroRun.wav");
 //    state.Player->attacking = Mix_LoadWAV("heroAttack.wav");
@@ -125,6 +117,21 @@ void Initialize(ShaderProgram* program, GameState& state, GLuint& fontTex) {
 //    Mix_PlayChannel(-1, state.Player->running, -1);
 //
 //    Mix_VolumeChunk(state.Player->casting, MIX_MAX_VOLUME);
+    
+    state.Enemy = new Entity(ENEMY, LoadTexture("adventurer.png"));
+    
+    unsigned int levelData[] =
+        {
+            0, 1, 1, 1, 1, 1, 1, 1, 1, 2,
+            12, 13, 13, 13, 13, 13, 13, 13, 13, 14,
+            12, 13, 13, 13, 13, 13, 13, 13, 13, 14,
+            12, 13, 13, 13, 13, 13, 13, 13, 13, 14,
+            12, 13, 13, 13, 13, 13, 13, 13, 13, 14,
+            12, 13, 13, 13, 13, 13, 13, 13, 13, 14,
+            12, 13, 13, 13, 13, 13, 13, 13, 13, 14,
+        };
+    
+    state.map = new Map(10, 7, levelData ,LoadTexture("tilesheet.png"), 0.5f, 12, 6);
     
     //For transparency of the image background
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -147,27 +154,10 @@ void ProcessInput(GameState& state, bool& gameIsRunning, bool& gameWon, bool& ga
             case SDL_KEYDOWN:
                 switch(event.key.keysym.sym){
                         
-                    case SDLK_u:
-                        if (!gameWon && !gameLost && !state.Player->attack && !state.Player->airAttack && !state.Player->cast){
-                            state.Player->cast = true;
-                        }
-                    
-                    // attacking
-                    case SDLK_j:
-                        if (!gameWon && !gameLost && !state.Player->attack && !state.Player->airAttack && !state.Player->cast){
-                            if (state.Player->onGround){
-                                state.Player->attack = true;
-                            }   else{
-                                state.Player->airAttack = true;
-                            }
-                        }
-                        break;
-                        
                     // jumping
                     case SDLK_k:
-                        if (!gameWon && !gameLost && !state.Player->attack && !state.Player->cast && (!state.Player->jump ||
-                                                                               (state.Player->wallSlide && state.Player->velocity.y < 1.0f))){
-                            Mix_PlayChannel(-1, state.Player->jumping, 0);
+                        if (!gameWon && !gameLost && (!state.Player->jump || (state.Player->wallSlide && state.Player->velocity.y < 1.0f))){
+                            //Mix_PlayChannel(-1, state.Player->jumping, 0);
                             state.Player->fall = false;
                             state.Player->jump = true;
                             state.Player->velocity.y = 4.5f;
@@ -223,11 +213,7 @@ void Update(float& lastTick, float& deltaTime, float& animTime, GameState& state
         while(deltaTime >= FIXEDTIMESTEP){
             
             // General Updates
-            state.Player->update(state.Platform, state.Enemy, PLATFORMCOUNT, ENEMYCOUNT, FIXEDTIMESTEP);
-        
-            for (int i = 0; i < PLATFORMCOUNT; i++){
-                state.Platform[i].update(NULL, NULL, 0, 0, FIXEDTIMESTEP);
-            }
+            state.Player->update(state.map ,state.Enemy, ENEMYCOUNT, FIXEDTIMESTEP);
             
             
             // Updating status of enemies and player running sound effect
@@ -417,44 +403,47 @@ void Render(SDL_Window* displayWindow, GameState& state, ShaderProgram* program,
     
     glClear(GL_COLOR_BUFFER_BIT);
     
+    state.map->Render(program);
     
-    for (int i = 0; i < ENEMYCOUNT; i++){
-        if (state.Enemy[i].deathcount != state.Enemy[i].deathTex.size()){
-            AnimRender(&state.Enemy[i], program);
-        }
-    }
+//    for (int i = 0; i < ENEMYCOUNT; i++){
+//        if (state.Enemy[i].deathcount != state.Enemy[i].deathTex.size()){
+//            AnimRender(&state.Enemy[i], program);
+//        }
+//    }
     
+    mat4 viewMatrix = translate(mat4(1.0f),vec3(-state.Player->position.x, 0, 0));
+    program->SetViewMatrix(viewMatrix);
     AnimRender(state.Player, program);
     
-    for (int i = 0; i < MAXBULLETS; i++){
-        if (!state.herobullets[i].dead){
-            if (state.herobullets[i].facingRight){
-                CustomRender(program, state.herobullets[i].yRepeat, state.herobullets[i].xRepeat, state.herobullets[i].height, state.herobullets[i].width, &state.herobullets[i], 0, state.herobullets[i].cols, state.herobullets[i].rows);
-            }   else{
-                CustomRender(program, state.herobullets[i].yRepeat, state.herobullets[i].xRepeat, state.herobullets[i].height, state.herobullets[i].width, &state.herobullets[i], 0, state.herobullets[i].cols, state.herobullets[i].rows, true);
-            }
-        }
-    }
+//    for (int i = 0; i < MAXBULLETS; i++){
+//        if (!state.herobullets[i].dead){
+//            if (state.herobullets[i].facingRight){
+//                CustomRender(program, state.herobullets[i].yRepeat, state.herobullets[i].xRepeat, state.herobullets[i].height, state.herobullets[i].width, &state.herobullets[i], 0, state.herobullets[i].cols, state.herobullets[i].rows);
+//            }   else{
+//                CustomRender(program, state.herobullets[i].yRepeat, state.herobullets[i].xRepeat, state.herobullets[i].height, state.herobullets[i].width, &state.herobullets[i], 0, state.herobullets[i].cols, state.herobullets[i].rows, true);
+//            }
+//        }
+//    }
+//
+//    for (int i = 0; i < MAXBULLETS; i++){
+//        if (!state.enemybullets[i].dead){
+//            if (state.enemybullets[i].facingRight){
+//                CustomRender(program, state.enemybullets[i].yRepeat, state.enemybullets[i].xRepeat, state.enemybullets[i].height, state.enemybullets[i].width, &state.enemybullets[i], 0, state.enemybullets[i].cols, state.enemybullets[i].rows);
+//            }   else{
+//                CustomRender(program, state.enemybullets[i].yRepeat, state.enemybullets[i].xRepeat, state.enemybullets[i].height, state.enemybullets[i].width, &state.enemybullets[i], 0, state.enemybullets[i].cols, state.enemybullets[i].rows, true);
+//            }
+//        }
+//    }
     
-    for (int i = 0; i < MAXBULLETS; i++){
-        if (!state.enemybullets[i].dead){
-            if (state.enemybullets[i].facingRight){
-                CustomRender(program, state.enemybullets[i].yRepeat, state.enemybullets[i].xRepeat, state.enemybullets[i].height, state.enemybullets[i].width, &state.enemybullets[i], 0, state.enemybullets[i].cols, state.enemybullets[i].rows);
-            }   else{
-                CustomRender(program, state.enemybullets[i].yRepeat, state.enemybullets[i].xRepeat, state.enemybullets[i].height, state.enemybullets[i].width, &state.enemybullets[i], 0, state.enemybullets[i].cols, state.enemybullets[i].rows, true);
-            }
-        }
-    }
-    
-    if(gameWon){
-        DrawText(program, fontTex, "You Won!", 1, -.5, vec3(-1.7f,0.5f,0));
-        DrawText(program, fontTex, "Press R to restart", .3, -.1, vec3(-1.7f,-.15f,0));
-    }
-
-    if(gameLost){
-        DrawText(program, fontTex, "Game Over", 1, -.5, vec3(-2.0f,0.5f,0));
-        DrawText(program, fontTex, "Press R to restart", .3, -.1, vec3(-1.7f,-0.15f,0));
-    }
+//    if(gameWon){
+//        DrawText(program, fontTex, "You Won!", 1, -.5, vec3(-1.7f,0.5f,0));
+//        DrawText(program, fontTex, "Press R to restart", .3, -.1, vec3(-1.7f,-.15f,0));
+//    }
+//
+//    if(gameLost){
+//        DrawText(program, fontTex, "Game Over", 1, -.5, vec3(-2.0f,0.5f,0));
+//        DrawText(program, fontTex, "Press R to restart", .3, -.1, vec3(-1.7f,-0.15f,0));
+//    }
     
     SDL_GL_SwapWindow(displayWindow);
 }
@@ -462,9 +451,9 @@ void Render(SDL_Window* displayWindow, GameState& state, ShaderProgram* program,
 
 // Shuting down
 void Shutdown(GameState& state) {
-    Mix_FreeChunk(state.Player->jumping);
-    Mix_FreeChunk(state.Player->running);
-    Mix_FreeMusic(state.music);
+//    Mix_FreeChunk(state.Player->jumping);
+//    Mix_FreeChunk(state.Player->running);
+//    Mix_FreeMusic(state.music);
     Mix_CloseAudio();
     SDL_Quit();
 }
@@ -495,84 +484,10 @@ void AnimUpdate(Entity* entity, GameState& state,float& animTime){
             }
         }
     
-    }   else if (entity->cast){
-        
-        if (entity->castcount == 0){
-            Mix_PlayChannel(-1, entity->casting, 0);
-        }
-        
-        if (entity->castcount < entity->castTex.size()-1){
-            
-            if (!entity->onGround && entity->castcount < entity->validcast - 1 && entity->selftype == PLAYER){
-                entity->castcount = entity->validcast - 1;
-            }   else{
-                entity->castcount += 1;
-            }
-            
-            if (entity->castcount == entity->validcast){
-                if (entity->selftype == PLAYER){
-                    
-                    for (int i=0; i< MAXBULLETS; i++){
-                        if (state.herobullets[i].dead){
-                            state.herobullets[i].dead = false;
-                            state.herobullets[i].position = entity->position;
-                            if (entity->facingRight){
-                                state.herobullets[i].movement.x = 1.0f;
-                                state.herobullets[i].position.x += entity->spritewidth* entity->width* entity->contactWidth;
-                            }   else{
-                                state.herobullets[i].movement.x = -1.0f;
-                                state.herobullets[i].position.x -= entity->spritewidth* entity->width* entity->contactWidth;
-                            }
-                            break;
-                        }
-                    }
-
-                }   else{
-                    
-                    for (int i=0; i< MAXBULLETS; i++){
-                        if (state.enemybullets[i].dead){
-                            state.enemybullets[i].dead = false;
-                            state.enemybullets[i].position = entity->position;
-                            vec3 direction = state.Player->position - entity->position;
-                            
-                            if (entity->facingRight){
-                                direction.x -= entity->spritewidth* entity->width* entity->contactWidth * 2;
-                            }   else{
-                                direction.x += entity->spritewidth* entity->width* entity->contactWidth * 2;
-                            }
-                            
-                            state.enemybullets[i].movement = normalize(direction);
-                            state.enemybullets[i].angle = atan(state.enemybullets[i].movement.y/state.enemybullets[i].movement.x);
-                            if (entity->facingRight){
-                                state.enemybullets[i].position.x += entity->spritewidth* entity->width* entity->contactWidth * 2;
-
-                            }   else{
-                                state.enemybullets[i].facingRight = false;
-                                state.enemybullets[i].position.x -= entity->spritewidth* entity->width* entity->contactWidth * 2;
-                            }
-                            break;
-                        }
-                    }
-                    
-                }
-            }
-        }   else{
-            entity->castcount = 0;
-            entity->cast = false;
-        }
-        
-    }   else if (entity->airAttack){
-        
-            Mix_PlayChannel(-1, entity->attacking, 0);
-            
-        if (entity->airAttackcount < entity->airAttackTex.size()-1){
-            entity->airAttackcount += 1;
-        }
-            
     }   else if (entity->hit){
         
         if (entity->hitcount == 0){
-                Mix_PlayChannel(-1, entity->hurt, 0);
+            //Mix_PlayChannel(-1, entity->hurt, 0);
         }
         
         if (entity->hitcount < entity->hitTex.size()-1){
@@ -611,51 +526,33 @@ void AnimUpdate(Entity* entity, GameState& state,float& animTime){
             }
             
     }   else {
-        
-        if (entity->attack){
             
-            if (entity->attackcount == 0){
-                
-                Mix_PlayChannel(-1, entity->attacking, 0);
-            
-            }
-            
-            if (entity->attackcount < entity->attackTex.size()-1){
-                entity->attackcount += 1;
-            }   else{
-                entity->attackcount = 0;
-                entity->attack = false;
-                entity->attacked = false;
-            }
-                
-        }   else{
-        
-            if (entity->movement.x == 0 ){
+        if (entity->movement.x == 0 ){
                     
-                    if (entity->idlecount < entity->idleTex.size()-1){
-                        entity->idlecount += 1;
-                    }   else{
-                        entity->idlecount = 0;
-                    }
-                   
+            if (entity->idlecount < entity->idleTex.size()-1){
+                entity->idlecount += 1;
             }   else{
                 entity->idlecount = 0;
-            }
-            
-            if (entity->movement.x != 0){
-                
-                if (entity->movecount < entity->moveTex.size()-1){
-                    entity->movecount += 1;
-                }   else{
-                    entity->movecount = 0;
                 }
-                  
+                   
+        }   else{
+                entity->idlecount = 0;
+        }
+            
+        if (entity->movement.x != 0){
+                
+            if (entity->movecount < entity->moveTex.size()-1){
+                entity->movecount += 1;
             }   else{
                 entity->movecount = 0;
             }
+                  
+        }   else{
+                entity->movecount = 0;
         }
     }
 }
+
 
 
     //Rendering Player
@@ -669,28 +566,12 @@ void AnimRender(Entity* entity, ShaderProgram* program){
             CustomRender(program, entity->yRepeat, entity->xRepeat, entity->height, entity->width, entity, entity->deathTex[entity->deathcount], entity->cols, entity->rows, true);
         }
         
-    }   else if (entity->cast && !entity->castTex.empty()){
-        
-        if (entity->facingRight ){
-            CustomRender(program, entity->yRepeat, entity->xRepeat, entity->height, entity->width, entity, entity->castTex[entity->castcount], entity->cols, entity->rows);
-        }   else{
-            CustomRender(program, entity->yRepeat, entity->xRepeat, entity->height, entity->width, entity, entity->castTex[entity->castcount], entity->cols, entity->rows, true);
-        }
-        
     }   else if (entity->hit && !entity->hitTex.empty()){
         
         if (entity->facingRight){
             CustomRender(program, entity->yRepeat, entity->xRepeat, entity->height, entity->width, entity, entity->hitTex[entity->hitcount], entity->cols, entity->rows);
         }   else{
             CustomRender(program, entity->yRepeat, entity->xRepeat, entity->height, entity->width, entity, entity->hitTex[entity->hitcount], entity->cols, entity->rows, true);
-        }
-        
-    }   else if (entity->airAttack && !entity->airAttackTex.empty()){
-        
-        if (entity->facingRight){
-            CustomRender(program, entity->yRepeat, entity->xRepeat, entity->height, entity->width, entity, entity->airAttackTex[entity->airAttackcount], entity->cols, entity->rows);
-        }   else{
-            CustomRender(program, entity->yRepeat, entity->xRepeat, entity->height, entity->width, entity, entity->airAttackTex[entity->airAttackcount], entity->cols, entity->rows, true);
         }
         
     }   else if(entity->fall && !entity->fallTex.empty()){
@@ -718,37 +599,25 @@ void AnimRender(Entity* entity, ShaderProgram* program){
         }
         
     }   else{
-        
-        if (entity->attack && !entity->attackTex.empty()){
             
+        if (entity->velocity.x == 0 && !entity->idleTex.empty()){
+                
             if (entity->facingRight){
-                CustomRender(program, entity->yRepeat, entity->xRepeat, entity->height, entity->width, entity, entity->attackTex[entity->attackcount], entity->cols, entity->rows);
+                CustomRender(program, entity->yRepeat, entity->xRepeat, entity->height, entity->width, entity, entity->idleTex[entity->idlecount], entity->cols, entity->rows);
             }   else{
-                CustomRender(program, entity->yRepeat, entity->xRepeat, entity->height, entity->width, entity, entity->attackTex[entity->attackcount], entity->cols, entity->rows, true);
+                CustomRender(program, entity->yRepeat, entity->xRepeat, entity->height, entity->width, entity, entity->idleTex[entity->idlecount], entity->cols, entity->rows, true);
             }
+                
+        }
             
-        }   else{
-        
-            if (entity->velocity.x == 0 && !entity->idleTex.empty()){
+        if (entity->movement.x != 0 && !entity->moveTex.empty()){
                 
-                if (entity->facingRight){
-                    CustomRender(program, entity->yRepeat, entity->xRepeat, entity->height, entity->width, entity, entity->idleTex[entity->idlecount], entity->cols, entity->rows);
-                }   else{
-                    CustomRender(program, entity->yRepeat, entity->xRepeat, entity->height, entity->width, entity, entity->idleTex[entity->idlecount], entity->cols, entity->rows, true);
-                }
-                
+            if (entity->facingRight){
+                CustomRender(program, entity->yRepeat, entity->xRepeat, entity->height, entity->width, entity, entity->moveTex[entity->movecount], entity->cols, entity->rows);
+            }   else{
+                CustomRender(program, entity->yRepeat, entity->xRepeat, entity->height, entity->width, entity, entity->moveTex[entity->movecount], entity->cols, entity->rows, true);
             }
-            
-            if (entity->movement.x != 0 && !entity->moveTex.empty()){
                 
-                if (entity->facingRight){
-                    CustomRender(program, entity->yRepeat, entity->xRepeat, entity->height, entity->width, entity, entity->moveTex[entity->movecount], entity->cols, entity->rows);
-                }   else{
-                    CustomRender(program, entity->yRepeat, entity->xRepeat, entity->height, entity->width, entity, entity->moveTex[entity->movecount], entity->cols, entity->rows, true);
-                }
-                
-            }
-            
         }
     }
 }

@@ -10,10 +10,10 @@ Map::Map(int width, int height, unsigned int *levelData, GLuint textureID, float
 void Map::Build(){
     
     for(int y = 0; y < height; y++){
-        for (int x =0; x < width; x++){
+        for (int x = 0; x < width; x++){
             
             int tile = levelData[y*width + x];
-            if (tile == 0) continue;
+            if (tile == 45) continue;
             
             float u = (float)(tile % tile_count_x)/ (float)tile_count_x;
             float v = (float)(tile / tile_count_x)/ (float)tile_count_y;
@@ -21,7 +21,7 @@ void Map::Build(){
             float tileWidth = 1.0f/ (float)tile_count_x;
             float tileHeight = 1.0f/ (float)tile_count_y;
             
-            float xOffset = -(tile_size/ 2);
+            float xOffset = -(tile_size / 2);
             float yOffset = tile_size / 2;
             
             vertices.insert(vertices.end(),
@@ -40,9 +40,9 @@ void Map::Build(){
              u + tileWidth, v + tileHeight,
                 
              u, v,
-             u + tileWidth, v+tileHeight,
+             u + tileWidth, v+ tileHeight,
              u + tileWidth, v
-            })
+            });
         }
     }
     

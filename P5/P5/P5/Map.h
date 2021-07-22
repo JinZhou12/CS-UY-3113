@@ -8,7 +8,7 @@
 #define GL_GLEXT_PROTOTYPES 1
 #include <vector>
 #include <math.h>
-#include <SDL_h>
+#include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
 #include "glm/mat4x4.hpp"
@@ -35,4 +35,4 @@ public:
     Map(int width, int height, unsigned int *levelData, GLuint textureID, float tile_size, int tile_count_x, int tile_count_y);
     void Build();
     void Render(ShaderProgram *program);
-}
+};

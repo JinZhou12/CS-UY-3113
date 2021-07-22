@@ -5,6 +5,7 @@
 #endif
 
 #define GL_GLEXT_PROTOTYPES 1
+#include "Map.h"
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_mixer.h>
@@ -14,7 +15,7 @@
 #include "ShaderProgram.h"
 
 
-enum EntityType {PLAYER, PLATFORM, BORDER, ENEMY, FLYENEMY, ENEMYBULLET, HEROBULLET, BACKGROUND, NONE};
+enum EntityType {PLAYER, ENEMY, FLYENEMY, ENEMYBULLET, HEROBULLET, BACKGROUND, NONE};
 
 class Entity{
 public:
@@ -22,9 +23,8 @@ public:
     bool checkCollision(Entity* other);
     void checkCollisionx(Entity *objects, int numobjects);
     void checkCollisiony(Entity *objects, int numobjects);
-    void checkAttack(Entity *other, int numobjects);
     void damaged();
-    void update(Entity* other, Entity *life, int numOfEntities, int numOfLives, float deltaTime);
+    void update(Map* map, Entity *life, int numOfLives, float deltaTime);
     void render(ShaderProgram* program);
     
     
@@ -48,10 +48,6 @@ public:
     bool wallSlide = false;
     bool onGround = false;
     bool hit = false;
-    bool cast = false;
-    bool attack = false;
-    bool attacked = false;
-    bool airAttack = false;
     bool facingRight = true;
     bool dead = false;
     
@@ -60,11 +56,6 @@ public:
     int rows;
     float spriteheight;
     float spritewidth;
-    int validattack;
-    int validcast;
-    float attackdisx = 1;
-    float attackdisy = 1;
-    float castCooldown = 2.0f;
     int idlecount = 0;
     std::vector<int> idleTex;
     int movecount = 0;
@@ -77,12 +68,6 @@ public:
     std::vector<int> fallTex;
     int hitcount = 0;
     std::vector<int> hitTex;
-    int castcount = 0;
-    std::vector<int> castTex;
-    int attackcount = 0;
-    std::vector<int> attackTex;
-    int airAttackcount = 0;
-    std::vector<int> airAttackTex;
     int deathcount = 0;
     std::vector<int> deathTex;
 
@@ -90,8 +75,6 @@ public:
     
     Mix_Chunk* jumping;
     Mix_Chunk* running;
-    Mix_Chunk* attacking;
-    Mix_Chunk* casting;
     Mix_Chunk* hurt;
     
     
