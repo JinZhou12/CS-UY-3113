@@ -9,53 +9,53 @@ Map::Map(int width, int height, unsigned int *levelData, GLuint textureID, float
 
 void Map::Build(){
     
-    for(int y = 0; y < height; y++){
-        for (int x = 0; x < width; x++){
+    for(int y = 0; y < this->height; y++) {
+        for(int x = 0; x < this->width; x++) {
             
-            int tile = levelData[y*width + x];
+            int tile = levelData[y * width + x];
             if (tile == 45) continue;
             
-            float u = (float)(tile % tile_count_x)/ (float)tile_count_x;
-            float v = (float)(tile / tile_count_x)/ (float)tile_count_y;
+            float u = (float)(tile % tile_count_x) / (float)tile_count_x;
+            float v = (float)(tile / tile_count_x) / (float)tile_count_y;
             
-            float tileWidth = 1.0f/ (float)tile_count_x;
-            float tileHeight = 1.0f/ (float)tile_count_y;
+            float tileWidth = 1.0f/(float)tile_count_x;
+            float tileHeight = 1.0f/(float)tile_count_y;
             
-            float xOffset = -(tile_size / 2);
-            float yOffset = tile_size / 2;
+            float xoffset = -(tile_size / 2); // From center of tile
+            float yoffset = (tile_size / 2); // From center of tile
             
-            vertices.insert(vertices.end(),
-            {xOffset + tile_size * x,               yOffset - tile_size * y,
-             xOffset + tile_size * x,               yOffset - tile_size * y - tile_size,
-             xOffset + tile_size * x + tile_size,   yOffset - tile_size * y - tile_size,
+            vertices.insert(vertices.end(), {
+                xoffset + (tile_size * x),              yoffset + -tile_size * y,
+                xoffset + (tile_size * x),              yoffset + (-tile_size * y) - tile_size,
+                xoffset + (tile_size * x) + tile_size,  yoffset + (-tile_size * y) - tile_size,
                 
-             xOffset + tile_size * x,               yOffset - tile_size * y,
-             xOffset + tile_size * x + tile_size,   yOffset - tile_size * y - tile_size,
-             xOffset + tile_size * x + tile_size,   yOffset - tile_size * y
+                xoffset + (tile_size * x),              yoffset + -tile_size * y,
+                xoffset + (tile_size * x) + tile_size,  yoffset + (-tile_size * y) - tile_size,
+                xoffset + (tile_size * x) + tile_size,  yoffset + -tile_size * y
             });
             
-            texCoords.insert(texCoords.end(),
-            {u, v,
-             u, v + tileHeight,
-             u + tileWidth, v + tileHeight,
+            texCoords.insert(texCoords.end(), {
+                u, v,
+                u, v+(tileHeight),
+                u+tileWidth, v+(tileHeight),
                 
-             u, v,
-             u + tileWidth, v+ tileHeight,
-             u + tileWidth, v
+                u, v,
+                u+tileWidth, v+(tileHeight),
+                u+tileWidth, v
             });
+            
+            leftBound = 0 - (tile_size / 2);
+            rightBound = (tile_size * width) - (tile_size / 2);
+            topBound = 0 + (tile_size / 2);
+            botBound = -(tile_size * height) + (tile_size / 2);
         }
     }
-    
-    leftBound = -tile_size / 2;
-    rightBound = (tile_size * width) - tile_size / 2;
-    
-    topBound = tile_size / 2;
-    botBound = -(tile_size * height) + tile_size / 2;
 }
 
 
-void Map::Render(ShaderProgram *program){
-    mat4 modelMatrix = mat4(1.0f);
+void Map::Render(ShaderProgram *program)
+{
+    glm::mat4 modelMatrix = glm::mat4(1.0f);
     program->SetModelMatrix(modelMatrix);
     
     glUseProgram(program->programID);
@@ -67,9 +67,46 @@ void Map::Render(ShaderProgram *program){
     glEnableVertexAttribArray(program->texCoordAttribute);
     
     glBindTexture(GL_TEXTURE_2D, textureID);
-    glDrawArrays(GL_TRIANGLES, 0, (int)vertices.size());
+     glDrawArrays(GL_TRIANGLES, 0, (int)vertices.size() / 2);
     
     glDisableVertexAttribArray(program->positionAttribute);
     glDisableVertexAttribArray(program->texCoordAttribute);
 }
 
+bool Map::IsSolid(glm::vec3 position, float *penetration_x, float *penetration_y, glm::vec3 &spawn)
+{
+    *penetration_x = 0;
+    *penetration_y = 0;
+    
+    if (position.x < leftBound || position.x > rightBound) return false;
+    if (position.y > topBound || position.y < botBound) return false;
+    
+    int tile_x = floor((position.x + (tile_size / 2)) / tile_size);
+    int tile_y = -(ceil(position.y - (tile_size / 2))) / tile_size; // Our array counts up as Y goes down.
+    
+    if (tile_x < 0 || tile_x >= width) return false;
+    if (tile_y < 0 || tile_y >= height) return false;
+    
+    for (int i = 0; i < spawnx.size(); i++){
+        if (tile_x == spawnx[i]){
+            spawn = vec3(tile_x * tile_size, -2.0f, 0);
+            break;
+        }
+    }
+    
+    int tile = levelData[tile_y * width + tile_x];
+    if (tile == 45) return false;
+        
+    float tile_center_x = (tile_x * tile_size);
+    float tile_center_y = -(tile_y * tile_size);
+    
+    *penetration_x = (tile_size / 2) - fabs(position.x - tile_center_x);
+    *penetration_y = (tile_size / 2) - fabs(position.y - tile_center_y);
+    
+    return true;
+}
+
+
+void Map::setSpawn(std::vector<int> spawns){
+    spawnx = spawns;
+}

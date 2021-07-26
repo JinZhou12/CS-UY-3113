@@ -10,8 +10,12 @@ Entity::Entity(EntityType obtype, GLuint texture, int cols, int rows, float spri
     selftype(obtype), texture(texture), cols(cols), rows(rows), spriteheight(spriteheight), spritewidth(spritewidth){}
 
 void Entity::damaged(){
-    hit = true;
     life -= 1;
+    if (life == 0){
+        dead = true;
+    }   else{
+        hit = true;
+    }
 }
 
 
@@ -23,80 +27,136 @@ bool Entity::checkCollision(Entity* other){
     float checky = fabs(position.y - other->position.y) - (contactHeight* height* yRepeat* spriteheight + other->contactHeight* other->height* other->yRepeat* other->spriteheight) / 2;
     float checkx = fabs(position.x - other->position.x) - (contactWidth* width* xRepeat* spritewidth + other->contactWidth* other->width* other->xRepeat* other->spritewidth) / 2;
     if (checkx < 0 and checky < 0){
-        //
-//        if ((selftype == ENEMYBULLET && (other->selftype == PLAYER || other->selftype == PLATFORM || other->selftype == BORDER)) ||
-//            (selftype == HEROBULLET && (other->selftype == ENEMY || other->selftype == FLYENEMY || other->selftype == PLATFORM || other->selftype == BORDER))){
-//            if (selftype == HEROBULLET){
-//                dead = true;
-//            }   else{
-//                if (other->selftype != PLATFORM){
-//                    dead = true;
-//                }
-//            }
-//
-//            if (other->selftype != PLATFORM || other->selftype != BORDER){
-//                other->damaged();
-//            }
-//        }
         return true;
     }
     return false;
 }
 
 // Displacement when there is a collision in the x direction
-void Entity::checkCollisionx(Entity *objects, int numobjects){
+void Entity::checkCollisionx(Entity *objects, int objectcount){
     
-    lastcollideleft = NONE;
-    lastcollideright = NONE;
-    
-    for (int i=0; i < numobjects; i++){
-        Entity* object = &objects[i];
-        if (checkCollision(object)){
-            
-            float xPene = fabs(fabs(position.x - object->position.x) - (contactWidth* width* xRepeat* spritewidth + object->contactWidth* object->width* object->xRepeat*object->spritewidth) / 2);
-            
-//            if (!(selftype == ENEMYBULLET && object->selftype == PLATFORM)){
-//                if (velocity.x>0){
-//                    lastcollideright = object->selftype;
-//                    position.x -= xPene;
-//                }   else if (velocity.x<0){
-//                    lastcollideleft = object->selftype;
-//                    position.x += xPene;
-//                }
-//            }
-        }  
+    for (int i=0; i < objectcount; i++){
+        if (objects[i].life > 0){
+            Entity* object = &objects[i];
+            if (checkCollision(object)){
+                
+                if (velocity.x>0){
+                    if (!hit){
+                        damaged();
+                    }
+                }   else if (velocity.x<0){
+                    if (!hit){
+                        damaged();
+                    }
+                }
+            }
+        }
     }
+    
 }
     
 // Displacement when there is a collision in the y direction
-void Entity::checkCollisiony(Entity *objects, int numobjects){
-    
-    lastcollidebot = NONE;
-    lastcollidetop = NONE;
-    
-    for (int i=0; i < numobjects; i++){
-        Entity* object = &objects[i];
-        if (checkCollision(object)){
-            float yPene = fabs(fabs(position.y - object->position.y) - (contactHeight* height* yRepeat* spriteheight + object->contactHeight* object->height* object->yRepeat* object-> spriteheight) / 2);
-            
-//            if (!(selftype == ENEMYBULLET && object->selftype == PLATFORM)){
-//                if (velocity.y>0){
-//                    lastcollidetop = object->selftype;
-//                    position.y -= yPene;
-//                }   else if (velocity.y<0){
-//                    lastcollidebot = object->selftype;
-//                    position.y += yPene;
-//                }
-//                velocity.y = 0;
-//            }
+void Entity::checkCollisiony(Entity *objects, int objectcount){
+
+    for (int i=0; i < objectcount; i++){
+        if (objects[i].life > 0){
+            Entity* object = &objects[i];
+            if (checkCollision(object)){
+                
+                if (velocity.y>0){
+                    if (!hit){
+                        damaged();
+                    };
+                }   else if (velocity.y<0){
+                    if (!object->hit){
+                        object->damaged();
+                    }
+                }
+                velocity.y = 0;
+            }
         }
     }
+    
+}
+
+void Entity::checkCollisiony(Map *map){
+    vec3 top = vec3(position.x, position.y + height*contactHeight*spriteheight/2, position.z);
+    vec3 top_left = vec3(position.x - width*contactWidth*spritewidth/2, position.y + height*contactHeight*spriteheight/2, position.z);
+    vec3 top_right = vec3(position.x + width*contactWidth*spritewidth/2, position.y + height*contactHeight*spriteheight/2, position.z);
+    
+    vec3 bot = vec3(position.x, position.y - height*contactHeight*spriteheight/2, position.z);
+    vec3 bot_left = vec3(position.x - width*contactWidth*spritewidth/2, position.y - height*contactHeight*spriteheight/2, position.z);
+    vec3 bot_right = vec3(position.x + width*contactWidth*spritewidth/2, position.y - height*contactHeight*spriteheight/2, position.z);
+    
+    float penetration_x = 0;
+    float penetration_y = 0;
+    vec3 spawn = vec3(0);
+    
+    if (map->IsSolid(top, &penetration_x, &penetration_y, spawn) && velocity.y > 0){
+        position.y -= penetration_y;
+        velocity.y = 0;
+        collidedTop = true;
+    }   else if (map->IsSolid(top_left, &penetration_x, &penetration_y, spawn) && velocity.y > 0){
+        position.y -= penetration_y;
+        velocity.y = 0;
+        collidedTop = true;
+    }   else if (map->IsSolid(top_right, &penetration_x, &penetration_y, spawn) && velocity.y > 0){
+        position.y -= penetration_y;
+        velocity.y = 0;
+        collidedTop = true;
+    }
+    
+    if (map->IsSolid(bot, &penetration_x, &penetration_y, spawn) && velocity.y < 0){
+        position.y += penetration_y;
+        velocity.y = 0;
+        collidedBot = true;
+    }   else if (map->IsSolid(bot_left, &penetration_x, &penetration_y, spawn) && velocity.y < 0){
+        position.y += penetration_y;
+        velocity.y = 0;
+        collidedBot = true;
+    }   else if (map->IsSolid(bot_right, &penetration_x, &penetration_y, spawn) && velocity.y < 0){
+        position.y += penetration_y;
+        velocity.y = 0;
+        collidedBot = true;
+    }
+}
+
+void Entity::checkCollisionx(Map *map){
+    vec3 right = vec3(position.x + width*contactWidth*spritewidth/2, position.y, position.z);
+    
+    vec3 left = vec3(position.x - width*contactWidth*spritewidth/2, position.y, position.z);
+    
+    float penetration_x = 0;
+    float penetration_y = 0;
+    vec3 spawn = spawnpoint;
+    
+    if (map->IsSolid(right, &penetration_x, &penetration_y, spawn) && velocity.x > 0){
+        position.x -= penetration_x;
+        collidedRight = true;
+    }
+    
+    if (map->IsSolid(left, &penetration_x, &penetration_y, spawn) && velocity.x < 0){
+        position.x += penetration_x;
+        collidedLeft = true;
+    }
+    
+    spawnpoint = spawn;
 }
 
 
 // Updating positions of everything accordingly
 void Entity::update(Map* map, Entity *life, int numOfLives, float deltaTime){
     
+    collidedTop = false;
+    collidedBot = false;
+    collidedRight = false;
+    collidedLeft = false;
+    
+    if (selftype == ENEMY){
+        if (active){
+            AIMover(map);
+        }
+    }
     
     // Different effects from movement on velocity depending on acceleration
     if (acceleration.x == 0){
@@ -113,86 +173,63 @@ void Entity::update(Map* map, Entity *life, int numOfLives, float deltaTime){
     
     velocity += acceleration * deltaTime;
     
-    if (dead){
-        velocity = vec3(0, -15.0f, 0);
+    // Collision detection
+    
+    if (selftype != BACKGROUND){
+        
+        position.x += velocity.x * deltaTime;
+        checkCollisionx(map);
+        checkCollisionx(life, numOfLives);
+        
+        position.y += velocity.y * deltaTime;
+        checkCollisiony(map);
+        checkCollisiony(life, numOfLives);
+    
     }
     
-    
-    // Determining which side the entity is facing
-    if (velocity.x < 0){
-        facingRight = false;
-    }   else{
-        facingRight = true;
-    }
-    
-    // Determining whether the entity is falling
-    if(!jump && velocity.y < 0){
-        if (selftype != FLYENEMY){
+    if (velocity.y < 0){
+        if (!jump || (!doubleJump && jumpcount == jumpTex.size()-1) || doublecount == doubleTex.size()-1){
             fall = true;
         }
     }
-
-    // Collision detection
-    position.y += velocity.y * deltaTime;
-    if (selftype == HEROBULLET || selftype == ENEMYBULLET){
-        checkCollisiony(life, numOfLives);
+        
+    if (position.y <= -8.0f){
+        if (!hit){
+            damaged();
+        }
+        position = spawnpoint;
     }
-    //checkCollisiony(map, numOfEntities);
     
+    if (dead){
+        velocity = vec3(0, -20.0f, 0);
+    }   else{
     
-    position.x += velocity.x * deltaTime;
-    if (selftype == HEROBULLET || selftype == ENEMYBULLET){
-        checkCollisiony(life, numOfLives);
-    }
-    //checkCollisionx(map, numOfEntities);
+        // Determining which side the entity is facing
+        if (velocity.x < 0){
+            facingRight = false;
+        }   else{
+            facingRight = true;
+        }
 
-    
-    // Commiting the displacement change
-    matrix = rotate(translate(mat4(1.0), position),angle, vec3(0,0,1));
-    
-    
-    // Status change based on collision
-//    if (lastcollidebot == PLATFORM || lastcollidebot == BORDER){
-//        onGround = true;
-//        fall = false;
-//        wallSlide = false;
-//        jump = false;
-//        if (airAttack){
-//            airAttack = false;
-//            attacked = false;
-//        }
-//        jumpcount = 0;
-//        fallcount = 0;
-//        airAttackcount = 0;
-//        wallSlidecount = 0;
-//    }   else{
-//        onGround = false;
-//    }
-    
-    
-    if (lastcollideright == NONE && lastcollideleft == NONE){
-        if (selftype == PLAYER){
-            //acceleration.y = -8.0f;
-            wallSlide = false;
+        
+        // Commiting the displacement change
+        matrix = rotate(translate(mat4(1.0), position),angle, vec3(0,0,1));
+        
+        
+        // Status change based on collision
+        if (collidedBot){
+            onGround = true;
+            fall = false;
+            jump = false;
+            doubleJump = false;
+            jumpcount = 0;
+            doublecount = 0;
+            fallcount = 0;
+        }   else{
+            onGround = false;
         }
         
-    }   else if( !onGround && (lastcollideright != NONE || lastcollideleft != NONE)){
-        if (selftype == PLAYER){
-            
-            fall = false;
-            wallSlide = true;
-            
-            if (velocity.y > 0){
-                acceleration.y = -12.0f;
-            }   else{
-                acceleration.y = -8.0f;
-                velocity.y = -1.0f;
-            }
-            
-        }
     }
-    
-    
 }
 
 // Rendering the entity
@@ -200,4 +237,28 @@ void Entity::render(ShaderProgram* program){
     program->SetModelMatrix(matrix);
     glBindTexture(GL_TEXTURE_2D, texture);
     glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
+
+void Entity::AIMover(Map* map){
+    vec3 bot_left_sensor = vec3(position.x - width*contactWidth*spritewidth/2 - 0.1f, position.y - height*contactHeight*spriteheight/2, position.z);
+    vec3 bot_right_sensor = vec3(position.x + width*contactWidth*spritewidth/2 + 0.1f, position.y - height*contactHeight*spriteheight/2, position.z);
+    
+    float penetration_x=0;
+    float penetration_y=0;
+    vec3 spawn = vec3(0);
+    
+    if (movement.x < 0){
+        if (!map->IsSolid(bot_left_sensor, &penetration_x, &penetration_y, spawn)){
+            movement.x = 1.0f;
+        }   else{
+            movement.x = -1.0f;
+        }
+    }   else{
+        if (!map->IsSolid(bot_right_sensor, &penetration_x, &penetration_y, spawn)){
+            movement.x = -1.0f;
+        }   else{
+            movement.x = 1.0f;
+        }
+    }
 }

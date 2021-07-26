@@ -252,3 +252,6 @@ void Entity::render(ShaderProgram* program){
     glBindTexture(GL_TEXTURE_2D, texture);
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }
+
+
+

@@ -1,4 +1,5 @@
 #define GL_SILENCE_DEPRECATION
+#pragma once
 
 #ifdef _WINDOWS
 #include <GL/glew.h>
@@ -15,28 +16,31 @@
 #include "ShaderProgram.h"
 
 
-enum EntityType {PLAYER, ENEMY, FLYENEMY, ENEMYBULLET, HEROBULLET, BACKGROUND, NONE};
+enum EntityType {PLAYER, ENEMY, BACKGROUND, NONE};
 
 class Entity{
 public:
     explicit Entity(EntityType obtype = NONE, GLuint texture = NULL, int cols = 1, int rows = 1, float spriteheight = 1, float spritewidth = 1);
     bool checkCollision(Entity* other);
-    void checkCollisionx(Entity *objects, int numobjects);
-    void checkCollisiony(Entity *objects, int numobjects);
+    void checkCollisionx(Map *map);
+    void checkCollisiony(Map *map);
+    void checkCollisionx(Entity *objects, int objectcount);
+    void checkCollisiony(Entity *objects, int objectcount);
     void damaged();
     void update(Map* map, Entity *life, int numOfLives, float deltaTime);
     void render(ShaderProgram* program);
+    void AIMover(Map* map);
     
     
     EntityType selftype;
-    EntityType lastcollidetop = NONE;
-    EntityType lastcollidebot = NONE;
-    EntityType lastcollideleft = NONE;
-    EntityType lastcollideright = NONE;
+    bool collidedTop = false;
+    bool collidedBot = false;
+    bool collidedRight = false;
+    bool collidedLeft = false;
     GLuint texture;
     int xRepeat = 1;
     int yRepeat = 1;
-    int life = 3;
+    int life = 1;
     float height = 1.0f;
     float contactHeight = 1.0f;
     float width = 1.0f;
@@ -45,11 +49,13 @@ public:
     float angle = 0;
     bool jump = false;
     bool fall = false;
-    bool wallSlide = false;
+    bool doubleJump = false;
     bool onGround = false;
     bool hit = false;
     bool facingRight = true;
     bool dead = false;
+    bool active = true;
+    glm::vec3 spawnpoint = glm::vec3(0);
     
     
     int cols;
@@ -62,12 +68,11 @@ public:
     std::vector<int> moveTex;
     int jumpcount = 0;
     std::vector<int> jumpTex;
-    int wallSlidecount = 0;
-    std::vector<int> wallSlideTex;
+    int doublecount = 0;
+    std::vector<int> doubleTex;
     int fallcount = 0;
     std::vector<int> fallTex;
     int hitcount = 0;
-    std::vector<int> hitTex;
     int deathcount = 0;
     std::vector<int> deathTex;
 
