@@ -27,6 +27,9 @@ bool Entity::checkCollision(Entity* other){
     float checky = fabs(position.y - other->position.y) - (contactHeight* height* yRepeat* spriteheight + other->contactHeight* other->height* other->yRepeat* other->spriteheight) / 2;
     float checkx = fabs(position.x - other->position.x) - (contactWidth* width* xRepeat* spritewidth + other->contactWidth* other->width* other->xRepeat* other->spritewidth) / 2;
     if (checkx < 0 and checky < 0){
+        if (selftype == PLAYER && other->selftype == GOAL){
+            atGoal = true;
+        }
         return true;
     }
     return false;
@@ -39,14 +42,15 @@ void Entity::checkCollisionx(Entity *objects, int objectcount){
         if (objects[i].life > 0){
             Entity* object = &objects[i];
             if (checkCollision(object)){
-                
-                if (velocity.x>0){
-                    if (!hit){
-                        damaged();
-                    }
-                }   else if (velocity.x<0){
-                    if (!hit){
-                        damaged();
+                if (selftype == ENEMY){
+                    if (velocity.x>0){
+                        if (!object->hit){
+                            object->damaged();
+                        }
+                    }   else if (velocity.x<0){
+                        if (!object->hit){
+                            object->damaged();
+                        }
                     }
                 }
             }
@@ -63,21 +67,47 @@ void Entity::checkCollisiony(Entity *objects, int objectcount){
             Entity* object = &objects[i];
             if (checkCollision(object)){
                 
-                if (velocity.y>0){
-                    if (!hit){
-                        damaged();
-                    };
-                }   else if (velocity.y<0){
-                    if (!object->hit){
-                        object->damaged();
+                float checky = fabs(position.y - object->position.y) - (contactHeight* height* yRepeat* spriteheight + object->contactHeight* object->height* object->yRepeat* object->spriteheight) / 2;
+                
+                if (velocity.y<0){
+                    if (selftype == PLAYER){
+                        if (checky > -0.1f && object->selftype == ENEMY){
+                            object->damaged();
+                        }
+                    }   else if (selftype == ENEMY){
+                        if (!object->hit){
+                            object->damaged();
+                        }
                     }
                 }
-                velocity.y = 0;
             }
         }
     }
-    
 }
+
+
+void Entity::checkCollisionx(Map *map){
+    
+    vec3 right = vec3(position.x + width*contactWidth*spritewidth/2, position.y, position.z);
+    vec3 left = vec3(position.x - width*contactWidth*spritewidth/2, position.y, position.z);
+    
+    float penetration_x = 0;
+    float penetration_y = 0;
+    vec3 spawn = spawnpoint;
+    
+    if (map->IsSolid(right, &penetration_x, &penetration_y, spawn) && velocity.x > 0){
+        position.x -= penetration_x;
+        collidedRight = true;
+    }
+    
+    if (map->IsSolid(left, &penetration_x, &penetration_y, spawn) && velocity.x < 0){
+        position.x += penetration_x;
+        collidedLeft = true;
+    }
+    
+    spawnpoint = spawn;
+}
+
 
 void Entity::checkCollisiony(Map *map){
     vec3 top = vec3(position.x, position.y + height*contactHeight*spriteheight/2, position.z);
@@ -121,31 +151,10 @@ void Entity::checkCollisiony(Map *map){
     }
 }
 
-void Entity::checkCollisionx(Map *map){
-    vec3 right = vec3(position.x + width*contactWidth*spritewidth/2, position.y, position.z);
-    
-    vec3 left = vec3(position.x - width*contactWidth*spritewidth/2, position.y, position.z);
-    
-    float penetration_x = 0;
-    float penetration_y = 0;
-    vec3 spawn = spawnpoint;
-    
-    if (map->IsSolid(right, &penetration_x, &penetration_y, spawn) && velocity.x > 0){
-        position.x -= penetration_x;
-        collidedRight = true;
-    }
-    
-    if (map->IsSolid(left, &penetration_x, &penetration_y, spawn) && velocity.x < 0){
-        position.x += penetration_x;
-        collidedLeft = true;
-    }
-    
-    spawnpoint = spawn;
-}
 
 
 // Updating positions of everything accordingly
-void Entity::update(Map* map, Entity *life, int numOfLives, float deltaTime){
+void Entity::update(Map* map, Entity *goal, Entity *lives, int numOfLives, float deltaTime){
     
     collidedTop = false;
     collidedBot = false;
@@ -176,15 +185,23 @@ void Entity::update(Map* map, Entity *life, int numOfLives, float deltaTime){
     // Collision detection
     
     if (selftype != BACKGROUND){
-        
-        position.x += velocity.x * deltaTime;
-        checkCollisionx(map);
-        checkCollisionx(life, numOfLives);
-        
-        position.y += velocity.y * deltaTime;
-        checkCollisiony(map);
-        checkCollisiony(life, numOfLives);
-    
+        if (life > 0){
+            position.x += velocity.x * deltaTime;
+            checkCollisionx(map);
+            checkCollisionx(lives, numOfLives);
+            if (selftype == PLAYER){
+                checkCollisionx(goal,1);
+            }   else if (selftype == ENEMY && (collidedLeft || collidedRight)){
+                movement.x = -movement.x;
+            }
+            
+            position.y += velocity.y * deltaTime;
+            checkCollisiony(map);
+            checkCollisiony(lives, numOfLives);
+            if (selftype == PLAYER){
+                checkCollisiony(goal,1);
+            }
+        }
     }
     
     if (velocity.y < 0){

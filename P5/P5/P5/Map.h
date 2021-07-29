@@ -28,14 +28,17 @@ class Map{
     
     std::vector<float> vertices;
     std::vector<float> texCoords;
-    std::vector<int> spawnx;
+    std::vector<glm::vec3> spawns;
+    
+    float endView;
     
     float leftBound, rightBound, topBound, botBound;
     
 public:
     Map(int width, int height, unsigned int *levelData, GLuint textureID, float tile_size, int tile_count_x, int tile_count_y);
     void Build();
+    float getEnd();
     void Render(ShaderProgram *program);
     bool IsSolid(glm::vec3 position, float* penetration_x, float* penetration_y, glm::vec3 &spawn);
-    void setSpawn(std::vector<int> spawns);
+    void setSpawn(std::vector<glm::vec3> spawn);
 };

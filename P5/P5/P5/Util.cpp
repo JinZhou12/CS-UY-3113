@@ -290,8 +290,8 @@ void Util::DisplayHealth(ShaderProgram* program, GameState& state, GLuint HPTex,
     
     vector<float> vertices;
     vector<float> texCoords;
-    float spacing = 0.2f;
-    float size = 0.7f;
+    float spacing = 0.1f;
+    float size = 0.6f;
     
     for (int i = 0 ; i < state.Player->life; i++){
         float offset = (size + spacing) * i;

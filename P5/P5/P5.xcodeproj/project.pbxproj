@@ -9,6 +9,23 @@
 /* Begin PBXBuildFile section */
 		D94CAC1226AF14B400F9D58E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D94CAC1126AF14B400F9D58E /* main.cpp */; };
 		D94CAC1326AF196300F9D58E /* heart.png in Copy Files */ = {isa = PBXBuildFile; fileRef = D94CAC1026AF14A300F9D58E /* heart.png */; };
+		D94CAC1626AF354D00F9D58E /* Level 1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D94CAC1426AF354D00F9D58E /* Level 1.cpp */; };
+		D94CAC1926AF361000F9D58E /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D94CAC1726AF361000F9D58E /* Scene.cpp */; };
+		D94CAC1A26AF40F700F9D58E /* Scene.cpp in Copy Files */ = {isa = PBXBuildFile; fileRef = D94CAC1726AF361000F9D58E /* Scene.cpp */; };
+		D94CAC1B26AF40F800F9D58E /* Scene.h in Copy Files */ = {isa = PBXBuildFile; fileRef = D94CAC1826AF361000F9D58E /* Scene.h */; };
+		D94CAC1C26AF40F900F9D58E /* Level 1.cpp in Copy Files */ = {isa = PBXBuildFile; fileRef = D94CAC1426AF354D00F9D58E /* Level 1.cpp */; };
+		D94CAC1D26AF40FB00F9D58E /* Level 1.h in Copy Files */ = {isa = PBXBuildFile; fileRef = D94CAC1526AF354D00F9D58E /* Level 1.h */; };
+		D94CAC1F26B059A900F9D58E /* door.png in Copy Files */ = {isa = PBXBuildFile; fileRef = D94CAC1E26B0598500F9D58E /* door.png */; };
+		D94CAC2226B084D600F9D58E /* Effects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D94CAC2026B084D600F9D58E /* Effects.cpp */; };
+		D94CAC2326B09BB800F9D58E /* Effects.cpp in Copy Files */ = {isa = PBXBuildFile; fileRef = D94CAC2026B084D600F9D58E /* Effects.cpp */; };
+		D94CAC2426B09BB900F9D58E /* Effects.h in Copy Files */ = {isa = PBXBuildFile; fileRef = D94CAC2126B084D600F9D58E /* Effects.h */; };
+		D94CAC2526B0C41C00F9D58E /* main.cpp in Copy Files */ = {isa = PBXBuildFile; fileRef = D94CAC1126AF14B400F9D58E /* main.cpp */; };
+		D94CAC2826B1A1AA00F9D58E /* Level 2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D94CAC2626B1A1AA00F9D58E /* Level 2.cpp */; };
+		D94CAC2926B1A1BD00F9D58E /* Level 2.cpp in Copy Files */ = {isa = PBXBuildFile; fileRef = D94CAC2626B1A1AA00F9D58E /* Level 2.cpp */; };
+		D94CAC2A26B1A1BF00F9D58E /* Level 2.h in Copy Files */ = {isa = PBXBuildFile; fileRef = D94CAC2726B1A1AA00F9D58E /* Level 2.h */; };
+		D94CAC2D26B1A1CF00F9D58E /* Level 3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D94CAC2B26B1A1CF00F9D58E /* Level 3.cpp */; };
+		D94CAC3026B1A1ED00F9D58E /* MainScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D94CAC2E26B1A1ED00F9D58E /* MainScreen.cpp */; };
+		D94CAC3226B1ED1600F9D58E /* theme.mp3 in Copy Files */ = {isa = PBXBuildFile; fileRef = D94CAC3126B1ECD600F9D58E /* theme.mp3 */; };
 		D97D2F2726A79BDB007035A6 /* ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D97D2F2126A79BDA007035A6 /* ShaderProgram.cpp */; };
 		D97D2F2926A79BDB007035A6 /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D97D2F2426A79BDB007035A6 /* Entity.cpp */; };
 		D97D2F2A26A79C09007035A6 /* adventurer.png in Copy Files */ = {isa = PBXBuildFile; fileRef = D97D2F2026A79BDA007035A6 /* adventurer.png */; };
@@ -46,8 +63,19 @@
 			dstSubfolderSpec = 6;
 			files = (
 				D97D2F3326A79C1F007035A6 /* stb_image.h in Copy Files */,
+				D94CAC1D26AF40FB00F9D58E /* Level 1.h in Copy Files */,
+				D94CAC3226B1ED1600F9D58E /* theme.mp3 in Copy Files */,
+				D94CAC2A26B1A1BF00F9D58E /* Level 2.h in Copy Files */,
+				D94CAC2926B1A1BD00F9D58E /* Level 2.cpp in Copy Files */,
+				D94CAC1A26AF40F700F9D58E /* Scene.cpp in Copy Files */,
+				D94CAC1B26AF40F800F9D58E /* Scene.h in Copy Files */,
 				D97D2F4126A8CFD1007035A6 /* tilesheet.png in Copy Files */,
+				D94CAC2526B0C41C00F9D58E /* main.cpp in Copy Files */,
+				D94CAC1C26AF40F900F9D58E /* Level 1.cpp in Copy Files */,
 				D94CAC1326AF196300F9D58E /* heart.png in Copy Files */,
+				D94CAC1F26B059A900F9D58E /* door.png in Copy Files */,
+				D94CAC2426B09BB900F9D58E /* Effects.h in Copy Files */,
+				D94CAC2326B09BB800F9D58E /* Effects.cpp in Copy Files */,
 				D97D2F4B26A90047007035A6 /* Util.h in Copy Files */,
 				D9961CC926ADEF2C005598F3 /* heroJump.wav in Copy Files */,
 				D97D2F4A26A90046007035A6 /* Util.cpp in Copy Files */,
@@ -73,6 +101,20 @@
 /* Begin PBXFileReference section */
 		D94CAC1026AF14A300F9D58E /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart.png; sourceTree = "<group>"; };
 		D94CAC1126AF14B400F9D58E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		D94CAC1426AF354D00F9D58E /* Level 1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "Level 1.cpp"; sourceTree = "<group>"; };
+		D94CAC1526AF354D00F9D58E /* Level 1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Level 1.h"; sourceTree = "<group>"; };
+		D94CAC1726AF361000F9D58E /* Scene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
+		D94CAC1826AF361000F9D58E /* Scene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
+		D94CAC1E26B0598500F9D58E /* door.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = door.png; sourceTree = "<group>"; };
+		D94CAC2026B084D600F9D58E /* Effects.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Effects.cpp; sourceTree = "<group>"; };
+		D94CAC2126B084D600F9D58E /* Effects.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Effects.h; sourceTree = "<group>"; };
+		D94CAC2626B1A1AA00F9D58E /* Level 2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "Level 2.cpp"; sourceTree = "<group>"; };
+		D94CAC2726B1A1AA00F9D58E /* Level 2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Level 2.h"; sourceTree = "<group>"; };
+		D94CAC2B26B1A1CF00F9D58E /* Level 3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "Level 3.cpp"; sourceTree = "<group>"; };
+		D94CAC2C26B1A1CF00F9D58E /* Level 3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Level 3.h"; sourceTree = "<group>"; };
+		D94CAC2E26B1A1ED00F9D58E /* MainScreen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MainScreen.cpp; sourceTree = "<group>"; };
+		D94CAC2F26B1A1ED00F9D58E /* MainScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainScreen.h; sourceTree = "<group>"; };
+		D94CAC3126B1ECD600F9D58E /* theme.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = theme.mp3; sourceTree = "<group>"; };
 		D97D2F1326A79B84007035A6 /* P5 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = P5; sourceTree = BUILT_PRODUCTS_DIR; };
 		D97D2F1D26A79BDA007035A6 /* ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProgram.h; sourceTree = "<group>"; };
 		D97D2F1E26A79BDA007035A6 /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
@@ -138,16 +180,29 @@
 				D97D2F1F26A79BDA007035A6 /* glm */,
 				D97D2F2526A79BDB007035A6 /* shaders */,
 				D94CAC1126AF14B400F9D58E /* main.cpp */,
+				D94CAC1726AF361000F9D58E /* Scene.cpp */,
+				D94CAC1826AF361000F9D58E /* Scene.h */,
+				D94CAC2E26B1A1ED00F9D58E /* MainScreen.cpp */,
+				D94CAC2F26B1A1ED00F9D58E /* MainScreen.h */,
+				D94CAC1426AF354D00F9D58E /* Level 1.cpp */,
+				D94CAC1526AF354D00F9D58E /* Level 1.h */,
+				D94CAC2626B1A1AA00F9D58E /* Level 2.cpp */,
+				D94CAC2726B1A1AA00F9D58E /* Level 2.h */,
+				D94CAC2B26B1A1CF00F9D58E /* Level 3.cpp */,
+				D94CAC2C26B1A1CF00F9D58E /* Level 3.h */,
 				D97D2F2426A79BDB007035A6 /* Entity.cpp */,
 				D97D2F2326A79BDB007035A6 /* Entity.h */,
 				D97D2F4226A8CFE1007035A6 /* Map.cpp */,
 				D97D2F4326A8CFE1007035A6 /* Map.h */,
 				D97D2F4726A90025007035A6 /* Util.cpp */,
 				D97D2F4826A90025007035A6 /* Util.h */,
+				D94CAC2026B084D600F9D58E /* Effects.cpp */,
+				D94CAC2126B084D600F9D58E /* Effects.h */,
 				D97D2F2126A79BDA007035A6 /* ShaderProgram.cpp */,
 				D97D2F1D26A79BDA007035A6 /* ShaderProgram.h */,
 				D97D2F1E26A79BDA007035A6 /* stb_image.h */,
 				D97D2F2026A79BDA007035A6 /* adventurer.png */,
+				D94CAC1E26B0598500F9D58E /* door.png */,
 				D94CAC1026AF14A300F9D58E /* heart.png */,
 				D97D2F2626A79BDB007035A6 /* font.png */,
 				D9961CC626ADEED4005598F3 /* background.png */,
@@ -155,6 +210,7 @@
 				D97D2F4026A8CFC5007035A6 /* tilesheet.png */,
 				D9961CC726ADEF20005598F3 /* heroJump.wav */,
 				D9961CC826ADEF24005598F3 /* heroRun.wav */,
+				D94CAC3126B1ECD600F9D58E /* theme.mp3 */,
 			);
 			path = P5;
 			sourceTree = "<group>";
@@ -228,8 +284,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				D97D2F2926A79BDB007035A6 /* Entity.cpp in Sources */,
+				D94CAC3026B1A1ED00F9D58E /* MainScreen.cpp in Sources */,
+				D94CAC1926AF361000F9D58E /* Scene.cpp in Sources */,
 				D97D2F4426A8CFE1007035A6 /* Map.cpp in Sources */,
 				D97D2F2726A79BDB007035A6 /* ShaderProgram.cpp in Sources */,
+				D94CAC2226B084D600F9D58E /* Effects.cpp in Sources */,
+				D94CAC1626AF354D00F9D58E /* Level 1.cpp in Sources */,
+				D94CAC2826B1A1AA00F9D58E /* Level 2.cpp in Sources */,
+				D94CAC2D26B1A1CF00F9D58E /* Level 3.cpp in Sources */,
 				D94CAC1226AF14B400F9D58E /* main.cpp in Sources */,
 				D97D2F4926A90025007035A6 /* Util.cpp in Sources */,
 			);

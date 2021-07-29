@@ -48,6 +48,8 @@ void Map::Build(){
             rightBound = (tile_size * width) - (tile_size / 2);
             topBound = 0 + (tile_size / 2);
             botBound = -(tile_size * height) + (tile_size / 2);
+
+            endView = width * tile_size + xoffset - 5.0f;
         }
     }
 }
@@ -73,6 +75,7 @@ void Map::Render(ShaderProgram *program)
     glDisableVertexAttribArray(program->texCoordAttribute);
 }
 
+
 bool Map::IsSolid(glm::vec3 position, float *penetration_x, float *penetration_y, glm::vec3 &spawn)
 {
     *penetration_x = 0;
@@ -82,14 +85,15 @@ bool Map::IsSolid(glm::vec3 position, float *penetration_x, float *penetration_y
     if (position.y > topBound || position.y < botBound) return false;
     
     int tile_x = floor((position.x + (tile_size / 2)) / tile_size);
-    int tile_y = -(ceil(position.y - (tile_size / 2))) / tile_size; // Our array counts up as Y goes down.
+    int tile_y = -ceil((position.y - (tile_size / 2)) / tile_size); // Our array counts up as Y goes down.
     
     if (tile_x < 0 || tile_x >= width) return false;
     if (tile_y < 0 || tile_y >= height) return false;
     
-    for (int i = 0; i < spawnx.size(); i++){
-        if (tile_x == spawnx[i]){
-            spawn = vec3(tile_x * tile_size, -2.0f, 0);
+    // Setting spawnpoints
+    for (int i = 0; i < spawns.size(); i++){
+        if (tile_x == spawns[i].x){
+            spawn = vec3(tile_x * tile_size, -7.0f + spawns[i].y * tile_size, 0);
             break;
         }
     }
@@ -100,13 +104,18 @@ bool Map::IsSolid(glm::vec3 position, float *penetration_x, float *penetration_y
     float tile_center_x = (tile_x * tile_size);
     float tile_center_y = -(tile_y * tile_size);
     
-    *penetration_x = (tile_size / 2) - fabs(position.x - tile_center_x);
+    *penetration_x = (tile_size / 2) - fabs(position.x - tile_center_x) + 0.01f;
     *penetration_y = (tile_size / 2) - fabs(position.y - tile_center_y);
     
     return true;
 }
 
 
-void Map::setSpawn(std::vector<int> spawns){
-    spawnx = spawns;
+void Map::setSpawn(std::vector<glm::vec3> spawn){
+    spawns = spawn;
+}
+
+
+float Map::getEnd(){
+    return endView;
 }

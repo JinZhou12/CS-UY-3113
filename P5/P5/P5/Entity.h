@@ -16,7 +16,7 @@
 #include "ShaderProgram.h"
 
 
-enum EntityType {PLAYER, ENEMY, BACKGROUND, NONE};
+enum EntityType {PLAYER, ENEMY, BACKGROUND, GOAL, NONE};
 
 class Entity{
 public:
@@ -27,7 +27,7 @@ public:
     void checkCollisionx(Entity *objects, int objectcount);
     void checkCollisiony(Entity *objects, int objectcount);
     void damaged();
-    void update(Map* map, Entity *life, int numOfLives, float deltaTime);
+    void update(Map* map, Entity *goal, Entity *life, int numOfLives, float deltaTime);
     void render(ShaderProgram* program);
     void AIMover(Map* map);
     
@@ -55,6 +55,7 @@ public:
     bool facingRight = true;
     bool dead = false;
     bool active = true;
+    bool atGoal = false;
     glm::vec3 spawnpoint = glm::vec3(0);
     
     
@@ -62,6 +63,7 @@ public:
     int rows;
     float spriteheight;
     float spritewidth;
+    int hitcount = 0;
     int idlecount = 0;
     std::vector<int> idleTex;
     int movecount = 0;
@@ -72,10 +74,8 @@ public:
     std::vector<int> doubleTex;
     int fallcount = 0;
     std::vector<int> fallTex;
-    int hitcount = 0;
     int deathcount = 0;
     std::vector<int> deathTex;
-
     
     
     Mix_Chunk* jumping;
