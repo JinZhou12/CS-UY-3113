@@ -31,6 +31,10 @@ bool Entity::checkCollision(Entity* other){
             atGoal = true;
         }
         return true;
+    }   else{
+        if (selftype == PLAYER && other->selftype == GOAL){
+            atGoal = false;
+        }
     }
     return false;
 }

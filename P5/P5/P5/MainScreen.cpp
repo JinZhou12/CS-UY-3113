@@ -39,7 +39,7 @@ void MainScreen::Render(SDL_Window* displayWindow, ShaderProgram* program, GLuin
     
     Util::CustomRender(program, state.Background->yRepeat, state.Background->xRepeat, state.Background->height, state.Background->width, state.Background, 1, 1, 1);
     
-    Util::DrawText(program, fontTex, "Monster Slayer", 1, -0.6, vec3(-2.6f, 0.5f,0));
+    Util::DrawText(program, fontTex, "Monster Slayer2", 1, -0.6, vec3(-2.6f, 0.5f,0));
     Util::DrawText(program, fontTex, "Press Enter to Continue", 0.3, -0.15, vec3(-1.7f,-0.5f,0));
     
 }
