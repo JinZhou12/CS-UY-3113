@@ -348,9 +348,9 @@ void Entity::AIBoss(Entity *player, Entity *bullets, int maxbullets){
             if (!bullets[i].active){
                 bullets[i].active = true;
                 bullets[i].position = position;
-                bullets[i].speed = (rand() % 35 + 11)/ 10;
+                bullets[i].speed = (float)(rand() % 26 + 25) / (float)(rand() % 6 + 10);
                 bullets[i].movement = normalize(player->position - position);
-                bullets[i].movement.y += pow(-1,bulletCounter) * bulletCounter / (rand ()% 10 + 20);
+                bullets[i].movement.y += (float)(pow(-1,bulletCounter) * bulletCounter) / (float)(rand ()% 10 + 20);
                 bullets[i].movement = normalize(bullets[i].movement);
                 bulletCounter -= 1;
                 if (bulletCounter <= 0){
