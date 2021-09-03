@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D91CFC4426E28B9C0076C333 /* dungeon.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D91CFC4326E28B930076C333 /* dungeon.png */; };
 		D984F50326BAE207001F72C6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D984F50226BAE207001F72C6 /* main.cpp */; };
 		D984F51726BAE284001F72C6 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D984F50C26BAE284001F72C6 /* Util.cpp */; };
 		D984F51826BAE284001F72C6 /* Effects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D984F50F26BAE284001F72C6 /* Effects.cpp */; };
@@ -22,7 +23,6 @@
 		D984F52826BAE34E001F72C6 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D984F52526BAE34E001F72C6 /* SDL2_image.framework */; };
 		D984F52926BAE34E001F72C6 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D984F52626BAE34E001F72C6 /* SDL2.framework */; };
 		D984F52B26BDB442001F72C6 /* wizard.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D984F52A26BDB308001F72C6 /* wizard.png */; };
-		D984F52D26C0561B001F72C6 /* dungeon.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D984F52C26C05611001F72C6 /* dungeon.png */; };
 		D984F52F26C2D81C001F72C6 /* wand.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D984F52E26C2D818001F72C6 /* wand.png */; };
 		D984F53226C3143A001F72C6 /* badshot.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D984F53126C3142F001F72C6 /* badshot.png */; };
 		D984F53326C3143D001F72C6 /* myshot.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = D984F53026C3142A001F72C6 /* myshot.png */; };
@@ -56,19 +56,20 @@
 				D984F52F26C2D81C001F72C6 /* wand.png in CopyFiles */,
 				D984F53326C3143D001F72C6 /* myshot.png in CopyFiles */,
 				D984F53526C32972001F72C6 /* chort.png in CopyFiles */,
+				D91CFC4426E28B9C0076C333 /* dungeon.png in CopyFiles */,
 				D984F53926C35AB5001F72C6 /* heart.png in CopyFiles */,
 				D984F55126C4B7B4001F72C6 /* theme.mp3 in CopyFiles */,
 				D984F55326C4B92B001F72C6 /* playerShot.wav in CopyFiles */,
 				D984F54F26C4B728001F72C6 /* poof.wav in CopyFiles */,
 				D984F53726C359A0001F72C6 /* necro.png in CopyFiles */,
 				D984F53226C3143A001F72C6 /* badshot.png in CopyFiles */,
-				D984F52D26C0561B001F72C6 /* dungeon.png in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D91CFC4326E28B930076C333 /* dungeon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dungeon.png; sourceTree = "<group>"; };
 		D984F4FF26BAE207001F72C6 /* P6 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = P6; sourceTree = BUILT_PRODUCTS_DIR; };
 		D984F50226BAE207001F72C6 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		D984F50926BAE284001F72C6 /* ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProgram.h; sourceTree = "<group>"; };
@@ -91,7 +92,6 @@
 		D984F52526BAE34E001F72C6 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../../../../Library/Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
 		D984F52626BAE34E001F72C6 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 		D984F52A26BDB308001F72C6 /* wizard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wizard.png; sourceTree = "<group>"; };
-		D984F52C26C05611001F72C6 /* dungeon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dungeon.png; path = ../../../../../../Downloads/dungeon_/dungeon_/dungeon.png; sourceTree = "<group>"; };
 		D984F52E26C2D818001F72C6 /* wand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wand.png; sourceTree = "<group>"; };
 		D984F53026C3142A001F72C6 /* myshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myshot.png; sourceTree = "<group>"; };
 		D984F53126C3142F001F72C6 /* badshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badshot.png; sourceTree = "<group>"; };
@@ -186,7 +186,7 @@
 				D984F54926C46F37001F72C6 /* boss.png */,
 				D984F53626C35997001F72C6 /* necro.png */,
 				D984F53826C35AB1001F72C6 /* heart.png */,
-				D984F52C26C05611001F72C6 /* dungeon.png */,
+				D91CFC4326E28B930076C333 /* dungeon.png */,
 				D984F51126BAE284001F72C6 /* font.png */,
 				D984F55026C4B7B0001F72C6 /* theme.mp3 */,
 				D984F55226C4B924001F72C6 /* playerShot.wav */,

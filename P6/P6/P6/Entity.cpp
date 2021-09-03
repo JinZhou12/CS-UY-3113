@@ -321,7 +321,11 @@ void Entity::AIShooter(Entity *player, Entity *bullets, int maxbullets){
             for (int i=0; i< maxbullets; i++){
                 if (!bullets[i].active){
                     bullets[i].active = true;
-                    bullets[i].position = position;
+                    vec3 myPosition = position;
+                    if (!texCentered){
+                        myPosition.y = (position.y - (1 - contactHeight)* height* yRepeat* spriteheight / 2);
+                    }
+                    bullets[i].position = myPosition;
                     bullets[i].movement = normalize(player->position - position);
                     break;
                 }

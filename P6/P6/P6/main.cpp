@@ -139,6 +139,10 @@ void ProcessInput(ShaderProgram *program, Mix_Chunk *pew, Scene *&current, Effec
     
     // Start/ Restart/ Quit inputs
     while (SDL_PollEvent(&event)) {
+        vec3 myPosition = current->state.Player->position;
+        if (!current->state.Player->texCentered){
+            myPosition.y = (current->state.Player->position.y - (1 - current->state.Player->contactHeight)* current->state.Player->height* current->state.Player->yRepeat* current->state.Player->spriteheight / 2);
+        }
         switch (event.type) {
             case SDL_QUIT:
             case SDL_WINDOWEVENT_CLOSE:
@@ -156,7 +160,7 @@ void ProcessInput(ShaderProgram *program, Mix_Chunk *pew, Scene *&current, Effec
                                     Mix_PlayChannel(-1, pew, 0);
                                     current->state.Myshots[i].active = true;
                                     current->state.Myshots[i].movement = vec3(0, 1.0f, 0);
-                                    current->state.Myshots[i].position = current->state.Player->position;
+                                    current->state.Myshots[i].position = myPosition;
                                     break;
                                 }
                             }
@@ -171,7 +175,7 @@ void ProcessInput(ShaderProgram *program, Mix_Chunk *pew, Scene *&current, Effec
                                     Mix_PlayChannel(-1, pew, 0);
                                     current->state.Myshots[i].active = true;
                                     current->state.Myshots[i].movement = vec3(0, -1.0f, 0);
-                                    current->state.Myshots[i].position = current->state.Player->position;
+                                    current->state.Myshots[i].position = myPosition;
                                     break;
                                 }
                             }
@@ -186,7 +190,7 @@ void ProcessInput(ShaderProgram *program, Mix_Chunk *pew, Scene *&current, Effec
                                     Mix_PlayChannel(-1, pew, 0);
                                     current->state.Myshots[i].active = true;
                                     current->state.Myshots[i].movement = vec3(-1.0f, 0, 0);
-                                    current->state.Myshots[i].position = current->state.Player->position;
+                                    current->state.Myshots[i].position = myPosition;
                                     break;
                                 }
                             }
@@ -201,7 +205,7 @@ void ProcessInput(ShaderProgram *program, Mix_Chunk *pew, Scene *&current, Effec
                                     Mix_PlayChannel(-1, pew, 0);
                                     current->state.Myshots[i].active = true;
                                     current->state.Myshots[i].movement = vec3(1.0f, 0, 0);
-                                    current->state.Myshots[i].position = current->state.Player->position;
+                                    current->state.Myshots[i].position = myPosition;
                                     break;
                                 }
                             }
