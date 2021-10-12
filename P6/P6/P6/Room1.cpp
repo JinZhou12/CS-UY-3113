@@ -50,7 +50,7 @@ void Room1::Initialize(Entity *player){
     state.Player = new Entity(PLAYER, Util::LoadTexture("wizard.png"), 1, 18, 1.75f);
     state.Player->speed = 3.0f;
     state.Player->invinceframe = 5;
-    state.Player->life = 4;
+    state.Player->life = 100;
     state.Player->position = vec3(7.5f, -8.0f, 0);
     state.Player->idleTex = {1, 2, 3, 4};
     state.Player->moveTex = {5, 6, 7, 8};

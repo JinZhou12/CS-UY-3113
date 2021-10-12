@@ -30,8 +30,8 @@
             filePath = "P6/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "317"
-            endingLineNumber = "317"
+            startingLineNumber = "320"
+            endingLineNumber = "320"
             landmarkName = "Update(program, lastTick, deltaTime, animTime, poof, current, effect, gameWon, gameLost)"
             landmarkType = "9">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "P6/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "308"
-            endingLineNumber = "308"
+            startingLineNumber = "311"
+            endingLineNumber = "311"
             landmarkName = "Update(program, lastTick, deltaTime, animTime, poof, current, effect, gameWon, gameLost)"
             landmarkType = "9">
          </BreakpointContent>

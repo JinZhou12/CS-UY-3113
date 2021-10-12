@@ -139,9 +139,12 @@ void ProcessInput(ShaderProgram *program, Mix_Chunk *pew, Scene *&current, Effec
     
     // Start/ Restart/ Quit inputs
     while (SDL_PollEvent(&event)) {
-        vec3 myPosition = current->state.Player->position;
-        if (!current->state.Player->texCentered){
-            myPosition.y = (current->state.Player->position.y - (1 - current->state.Player->contactHeight)* current->state.Player->height* current->state.Player->yRepeat* current->state.Player->spriteheight / 2);
+        vec3 myPosition;
+        if (current->scenetype != MAIN){
+            myPosition = current->state.Player->position;
+            if (!current->state.Player->texCentered){
+                myPosition.y = (current->state.Player->position.y - (1 - current->state.Player->contactHeight)* current->state.Player->height* current->state.Player->yRepeat* current->state.Player->spriteheight / 2);
+            }
         }
         switch (event.type) {
             case SDL_QUIT:
